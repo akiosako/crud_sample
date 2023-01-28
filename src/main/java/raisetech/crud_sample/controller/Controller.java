@@ -36,19 +36,18 @@ public class Controller {
     }
 
     @PostMapping //30文字を超える場合はエラーメッセージを返す
-    public ResponseEntity<String> createMsg(@RequestBody @Valid MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
-        String newId = toString().valueOf(msgService.createMsg(msgForm));
-        URI uri = uriComponentsBuilder.path("msg/{newId}")
+    public ResponseEntity<Map<String, String>> createMsg(@RequestBody @Valid MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
+        String newId = String.valueOf(msgService.createMsg(msgForm));
+        URI url = uriComponentsBuilder.fromUriString("http://localhost:8080")
+                .path("/msg/{id}")
                 .buildAndExpand(newId)
                 .toUri();
-        return ResponseEntity.created(uri).body("message successfully created");
-
+        return ResponseEntity.created(url).body(Map.of("message", "message successfully created"));
     }
 
     @PatchMapping("/{id}")//idが存在しない場合は404を返す
     public ResponseEntity<String> updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
         msgService.findById(id);
-        updateForm.setId(id);
         msgService.updateMsg(updateForm);
         return ResponseEntity.ok("message successfully updated");
     }

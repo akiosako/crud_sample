@@ -10,7 +10,7 @@ import raisetech.crud_sample.repository.MsgMapper;
 import java.util.List;
 
 @Service
-public class MsgServiceImpl implements MsgService{
+public class MsgServiceImpl implements MsgService {
     private final MsgMapper msgMapper;
 
     public MsgServiceImpl(MsgMapper msgMapper) {
@@ -18,10 +18,12 @@ public class MsgServiceImpl implements MsgService{
     }
 
     @Override
-    public List<Message> findAll() { return msgMapper.findAll();}
+    public List<Message> findAll() {
+        return msgMapper.findAll();
+    }
 
     @Override
-    public Message findById(int id){
+    public Message findById(int id) {
         return this.msgMapper.findById(id).orElseThrow(() -> new ResourceNotFoundException("resource not found"));
     }
 
@@ -38,7 +40,7 @@ public class MsgServiceImpl implements MsgService{
     }
 
     @Override
-    public void deleteMsg(int id){
+    public void deleteMsg(int id) {
         msgMapper.deleteMsg(id);
     }
 

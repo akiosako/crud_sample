@@ -46,17 +46,17 @@ public class Controller {
     }
 
     @PatchMapping("/{id}")//idが存在しない場合は404を返す
-    public ResponseEntity<String> updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+    public ResponseEntity<Map<String, String>> updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
         msgService.findById(id);
         msgService.updateMsg(updateForm);
-        return ResponseEntity.ok("message successfully updated");
+        return ResponseEntity.ok(Map.of("message", "message successfully updated"));
     }
 
     @DeleteMapping("/{id}")//idが存在しない場合は404を返す
-    public ResponseEntity<String> deleteMsg(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> deleteMsg(@PathVariable int id) {
         msgService.findById(id);
         msgService.deleteMsg(id);
-        return ResponseEntity.ok("message successfully deleted");
+        return ResponseEntity.ok(Map.of("message", "message successfully deleted"));
     }
 
     @ExceptionHandler(value = ResourceNotFoundException.class)

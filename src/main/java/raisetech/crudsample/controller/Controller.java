@@ -47,9 +47,13 @@ public class Controller {
 
     @PatchMapping("/{id}")//idが存在しない場合は404を返す
     public ResponseEntity<Map<String, String>> updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+        msgService.findById(id);
         updateForm.setId(id);
         msgService.updateMsg(updateForm);
-        return ResponseEntity.ok(Map.of("message", "message successfully updated"));
+        return ResponseEntity.ok(Map.of(
+                "id", String.valueOf(id),
+                "update message", updateForm.getMsg(),
+                "message", "message successfully updated"));
     }
 
     @DeleteMapping("/{id}")//idが存在しない場合は404を返す

@@ -54,8 +54,12 @@ public class Controller {
 
     @DeleteMapping("/{id}")//idが存在しない場合は404を返す
     public ResponseEntity<Map<String, String>> deleteMsg(@PathVariable int id) {
+        Message deletedMessage = msgService.findById(id);
         msgService.deleteMsg(id);
-        return ResponseEntity.ok(Map.of("message", "message successfully deleted"));
+        return ResponseEntity.ok(Map.of(
+                "id", String.valueOf(id),
+                "delete message", deletedMessage.getMsg(),
+                "message", "message successfully deleted"));
     }
 
     @ExceptionHandler(value = ResourceNotFoundException.class)

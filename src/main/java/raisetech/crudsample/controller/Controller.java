@@ -42,7 +42,10 @@ public class Controller {
                 .path("/msg/{id}")
                 .buildAndExpand(newId)
                 .toUri();
-        return ResponseEntity.created(url).body(Map.of("message", "message successfully created"));
+        return ResponseEntity.created(url).body(Map.of(
+                "id", newId,
+                "create message", msgForm.getMsg(),
+                "message", "message successfully created"));
     }
 
     @PatchMapping("/{id}")//idが存在しない場合は404を返す

@@ -1,0 +1,30 @@
+name: Checkstyle
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checkstyle:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run check style
+        uses: nikitasavinov/checkstyle-action@master
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: 'github-pr-check'
+          tool_name: 'reviewdog'
+          checkstyle_config: 'config/checkstyle/checkstyle.xml'
+          workdir: 'src/main'
+          level: error

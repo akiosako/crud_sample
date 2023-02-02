@@ -1,17 +1,13 @@
 package raisetech.crudsample.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import raisetech.crudsample.entity.Message;
-import raisetech.crudsample.from.MsgForm;
-import raisetech.crudsample.from.UpdateForm;
+import raisetech.crudsample.form.UpdateForm;
 import raisetech.crudsample.service.MsgService;
 
-import java.net.URI;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -35,27 +31,26 @@ public class Controller {
     return msgService.findById(id);
   }
 
-  @PostMapping //30文字を超える場合はエラーメッセージを返す
-  public ResponseEntity<Map<String, String>> createMsg(@RequestBody @Valid MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
-    String newId = String.valueOf(msgService.createMsg(msgForm));
-    URI url = uriComponentsBuilder
-            .path("/msg/{id}")
-            .buildAndExpand(newId)
-            .toUri();
-    return ResponseEntity.created(url).body(Map.of(
-            "id", newId,
-            "create message", msgForm.getMsg(),
-            "message", "message successfully created"));
-  }
+//  @PostMapping //30文字を超える場合はエラーメッセージを返す
+//  public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
+//    Message createdMsg = msgService.createMsg(msgForm.getMsg());
+//    URI url = uriComponentsBuilder
+//            .path("/msg/{id}")
+//            .buildAndExpand(createdMsg.getId())
+//            .toUri();
+//    return ResponseEntity.created(url).body(Map.of(
+//            "id",createdMsg.getId(),
+//            "created message", ,
+//            "message", "message successfully created"));
+//  }
 
   @PatchMapping("/{id}")//idが存在しない場合は404を返す
   public ResponseEntity<Map<String, String>> updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
     msgService.findById(id);
-    updateForm.setId(id);
-    msgService.updateMsg(updateForm);
+    msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.ok(Map.of(
             "id", String.valueOf(id),
-            "update message", updateForm.getMsg(),
+            "updated message", updateForm.getMsg(),
             "message", "message successfully updated"));
   }
 

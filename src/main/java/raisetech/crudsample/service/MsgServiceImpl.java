@@ -31,8 +31,8 @@ public class MsgServiceImpl implements MsgService {
   }
 
   @Override
-  public void updateMsg(int id, String msg) {
-    msgMapper.updateMsg(id, msg);
+  public Message updateMsg(int id, String msg) {
+    return this.msgMapper.updateMsg(id, msg).orElseThrow(() -> new ResourceNotFoundException("resource not found"));
   }
 
   @Override

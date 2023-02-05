@@ -19,7 +19,7 @@ public interface MsgMapper {
   Message createMsg(String msg);
 
   @Update("update message set msg = #{msg} where id = #{id}")
-  Optional<Message> updateMsg(int id, String msg);
+  void updateMsg(int id, String msg);
 
   @Delete("delete from message where id = #{id}")
   void deleteMsg(int id);

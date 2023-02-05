@@ -2,6 +2,7 @@ package raisetech.crudsample.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import raisetech.crudsample.entity.Message;
@@ -47,6 +48,12 @@ public class Controller {
   @PatchMapping("/{id}")//idが存在しない場合は404を返す
   public Message updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
     return msgService.updateMsg(id, updateForm.getMsg());
+  }
+
+  @PatchMapping("/sample/{id}")
+  public ResponseEntity updateMsg2(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+    msgService.updateMsg2(id, updateForm.getMsg());
+    return ResponseEntity.noContent().build();
   }
 
   @DeleteMapping("/{id}")//idが存在しない場合は404を返す

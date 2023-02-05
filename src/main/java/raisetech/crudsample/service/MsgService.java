@@ -13,5 +13,7 @@ public interface MsgService {
 
   Message updateMsg(int id, String msg);
 
+  void updateMsg2(int id, String msg);
+
   void deleteMsg(int id);
 }

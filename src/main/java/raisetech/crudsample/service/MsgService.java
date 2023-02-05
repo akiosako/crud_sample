@@ -1,19 +1,19 @@
 package raisetech.crudsample.service;
 
 import raisetech.crudsample.entity.Message;
-import raisetech.crudsample.from.MsgForm;
-import raisetech.crudsample.from.UpdateForm;
 
 import java.util.List;
 
 public interface MsgService {
-    List<Message> findAll();
+  List<Message> findAll();
 
-    Message findById(int id);
+  Message findById(int id);
 
-    int createMsg(MsgForm msgForm);
+  Message createMsg(String msg);
 
-    void updateMsg(UpdateForm updateForm);
+  Message updateMsg(int id, String msg);
 
-    void deleteMsg(int id);
+  void updateMsg2(int id, String msg);
+
+  void deleteMsg(int id);
 }

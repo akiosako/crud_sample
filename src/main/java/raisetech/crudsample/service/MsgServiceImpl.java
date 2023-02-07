@@ -27,7 +27,9 @@ public class MsgServiceImpl implements MsgService {
 
   @Override
   public Message createMsg(String msg) {
-    return msgMapper.createMsg(msg);
+
+    this.msgMapper.createMsg(msg);
+    return new Message(id, msg);
   }
 
   @Override

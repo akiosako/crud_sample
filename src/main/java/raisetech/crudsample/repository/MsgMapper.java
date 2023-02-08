@@ -16,7 +16,8 @@ public interface MsgMapper {
 
   @Insert("insert into message(msg) values(#{msg})")
   @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-  Message createMsg(String msg);
+  Message createMsg(Message message);
+
 
   @Update("update message set msg = #{msg} where id = #{id}")
   void updateMsg(int id, String msg);

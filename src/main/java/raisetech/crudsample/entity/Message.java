@@ -14,4 +14,8 @@ public class Message {
   @NotNull
   @Size(min = 1, max = 30, message = "メッセージは1文字～30文字の間で登録できます。")
   private String msg;
+
+  public Message() {
+  }
 }
+

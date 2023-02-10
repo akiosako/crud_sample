@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import raisetech.crudsample.entity.Message;
+import raisetech.crudsample.form.MsgForm;
 import raisetech.crudsample.form.UpdateForm;
 import raisetech.crudsample.service.MsgService;
 
+import java.net.URI;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +35,19 @@ public class Controller {
     return msgService.findById(id);
   }
 
-//  @PostMapping //30文字を超える場合はエラーメッセージを返す
-//  public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
-//    Message createdMsg = msgService.createMsg(msgForm.getMsg());
-//    URI url = uriComponentsBuilder
-//            .path("/msg/{id}")
-//            .buildAndExpand(createdMsg.getId())
-//            .toUri();
-//    return ResponseEntity.created(url).body(Map.of(
-//            "id",createdMsg.getId(),
-//            "created message", ,
-//            "message", "message successfully created"));
-//  }
+  @PostMapping //30文字を超える場合はエラーメッセージを返す
+  public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
+    int newId = this.msgService.createMsg(msgForm.getMsg());
+    URI uri = uriComponentsBuilder
+            .path("/msg/{id}")
+            .buildAndExpand(newId)
+            .toUri();
+    return ResponseEntity.created(uri).body(Map.of(
+            "id", String.valueOf(newId),
+            "created message", msgForm.getMsg(),
+            "message", "message created successfully"
+    ));
+  }
 
   @PatchMapping("/{id}")//idが存在しない場合は404を返す
   public Message updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {

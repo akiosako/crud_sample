@@ -9,7 +9,7 @@ public interface MsgService {
 
   Message findById(int id);
 
-  Message createMsg(String msg);
+  int createMsg(String msg);
 
   Message updateMsg(int id, String msg);
 

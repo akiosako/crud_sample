@@ -37,13 +37,13 @@ public class Controller {
 
   @PostMapping //30文字を超える場合はエラーメッセージを返す
   public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
-    Message createMessage = this.msgService.createMsg(msgForm.getMsg());
+    int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder
-            .path("msg/{id}")
-            .buildAndExpand(createMessage.getId())
+            .path("/msg/{id}")
+            .buildAndExpand(newId)
             .toUri();
     return ResponseEntity.created(uri).body(Map.of(
-            "id", String.valueOf(createMessage.getId()),
+            "id", String.valueOf(newId),
             "created message", msgForm.getMsg(),
             "message", "message created successfully"
     ));

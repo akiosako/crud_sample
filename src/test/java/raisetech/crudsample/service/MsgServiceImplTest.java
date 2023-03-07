@@ -31,8 +31,10 @@ class MsgServiceImplTest {
   @Test
   public void 存在するメッセージのidが指定された時にメッセージが返されること() {
     doReturn(Optional.of(new Message(1, "Hello"))).when(msgMapper).findById(1);
+
     Message actual = msgServiceImpl.findById(1);
     assertThat(actual).isEqualTo(new Message(1, "Hello"));
+    verify(msgMapper).findById(1);
   }
 
 

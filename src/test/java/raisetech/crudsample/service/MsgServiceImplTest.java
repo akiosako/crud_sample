@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -30,10 +31,10 @@ class MsgServiceImplTest {
   @Test
   public void 存在するメッセージのidが指定された時にメッセージが返されること() {
     doReturn(Optional.of(new Message(1, "Hello"))).when(msgMapper).findById(1);
-
     Message actual = msgServiceImpl.findById(1);
     assertThat(actual).isEqualTo(new Message(1, "Hello"));
   }
+
 
 //  @Test
 //  void createMsg() {

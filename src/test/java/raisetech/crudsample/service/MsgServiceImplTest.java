@@ -5,14 +5,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import raisetech.crudsample.controller.ResourceNotFoundException;
 import raisetech.crudsample.entity.Message;
 import raisetech.crudsample.repository.MsgMapper;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -37,6 +39,13 @@ class MsgServiceImplTest {
     verify(msgMapper).findById(1);
   }
 
+  @Test
+  public void 存在しないidを指定した時ResourceNotFoundExceptionがスローされること() {
+    when(msgMapper.findById(999)).thenThrow(ResourceNotFoundException.class);
+
+    assertThrows(ResourceNotFoundException.class, () -> msgServiceImpl.findById(999));
+    verify(msgMapper).findById(999);
+  }
 
 //  @Test
 //  void createMsg() {

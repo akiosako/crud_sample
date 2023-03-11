@@ -31,7 +31,7 @@ class MsgServiceImplTest {
   MsgMapper msgMapper;
 
   @Test
-  void findAll() {
+  public void findAllですべてのメッセージが返されること() {
     doReturn(List.of(new Message(1, "Hello"), new Message(2, "Bye"), new Message(3, "Hi"))).when(msgMapper).findAll();
 
     List<Message> actual = msgServiceImpl.findAll();
@@ -56,7 +56,7 @@ class MsgServiceImplTest {
     verify(msgMapper).findById(999);
   }
 
-//  @Test
+  //  @Test
 //  void createMsg() {
 //  }
 //

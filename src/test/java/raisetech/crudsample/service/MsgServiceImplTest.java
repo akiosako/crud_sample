@@ -1,14 +1,19 @@
 package raisetech.crudsample.service;
 
+import org.apache.tomcat.util.net.TLSClientHelloExtractor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.support.ManagedList;
 import raisetech.crudsample.controller.ResourceNotFoundException;
 import raisetech.crudsample.entity.Message;
 import raisetech.crudsample.repository.MsgMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,9 +30,14 @@ class MsgServiceImplTest {
   @Mock
   MsgMapper msgMapper;
 
-//  @Test
-//  void findAll() {
-//  }
+  @Test
+  void findAll() {
+    doReturn(List.of(new Message(1, "Hello"), new Message(2, "Bye"), new Message(3, "Hi"))).when(msgMapper).findAll();
+
+    List<Message> actual = msgServiceImpl.findAll();
+    assertThat(actual).isEqualTo(List.of(new Message(1, "Hello"), new Message(2, "Bye"), new Message(3, "Hi")));
+    verify(msgMapper).findAll();
+  }
 
   @Test
   public void 存在するメッセージのidが指定された時にメッセージが返されること() {

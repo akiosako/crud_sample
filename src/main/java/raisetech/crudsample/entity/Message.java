@@ -24,7 +24,6 @@ public class Message {
     return false;
   }
 
-
   public Message() {
 
   }

@@ -58,10 +58,10 @@ class MsgServiceImplTest {
 
   @Test
   public void メッセージが登録され自動採番されたidを返すこと() {
-    doNothing().when(msgMapper).createMsg(new Message(1, "Hello"));
+    doNothing().when(msgMapper).createMsg(new Message(0, "Hello"));
 
     int newId = msgServiceImpl.createMsg("Hello");
-    assertThat(newId).isEqualTo(new Message(1, "Hello").getId());
+    assertThat(newId).isEqualTo(new Message(0, "Hello").getId());
   }
 
 //  @Test

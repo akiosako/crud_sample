@@ -11,9 +11,8 @@ public interface MsgService {
 
   int createMsg(String msg);
 
-  Message updateMsg(int id, String msg);
-
-  void updateMsg2(int id, String msg);
+  void updateMsg(int id, String msg);
 
   void deleteMsg(int id);
 }
+

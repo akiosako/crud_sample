@@ -48,14 +48,9 @@ public class Controller {
     ));
   }
 
-  @PatchMapping("/{id}")//idが存在しない場合は404を返す
-  public Message updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
-    return msgService.updateMsg(id, updateForm.getMsg());
-  }
-
-  @PatchMapping("/sample/{id}")
-  public ResponseEntity updateMsg2(@PathVariable int id, @RequestBody UpdateForm updateForm) {
-    msgService.updateMsg2(id, updateForm.getMsg());
+  @PatchMapping("/{id}")
+  public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+    msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();
   }
 

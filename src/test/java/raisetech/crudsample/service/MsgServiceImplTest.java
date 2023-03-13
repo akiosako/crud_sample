@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 
@@ -64,14 +65,28 @@ class MsgServiceImplTest {
     assertThat(newId).isEqualTo(new Message(0, "Hello").getId());
   }
 
-//  @Test
-//  void updateMsg() {
-//  }
-//
-//  @Test
-//  void updateMsg2() {
-//  }
-//
+  @Test
+  public void 指定されたidが存在する時メッセージが更新されること() {
+    doReturn(Optional.of(new Message(1, "Hello"))).when(msgMapper).findById(1);
+    verify(msgMapper).findById(1);
+
+    doNothing().when(msgMapper).updateMsg(1, "Hello");
+    try {
+      msgServiceImpl.updateMsg(1, "Hello");
+    } catch (ResourceNotFoundException e) {
+      fail(e.getMessage());
+    }
+    verify(msgMapper).updateMsg(1, "Hello");
+  }
+
+  @Test
+  public void 存在しないidが指定された時例外がスローされること() {
+    doReturn(Optional.empty()).when(msgMapper).findById(999);
+
+    assertThrows(ResourceNotFoundException.class, () -> msgServiceImpl.updateMsg(999, "Hello"));
+    verify(msgMapper, times(1)).findById(999);
+  }
+
 //  @Test
 //  void deleteMsg() {
 //  }

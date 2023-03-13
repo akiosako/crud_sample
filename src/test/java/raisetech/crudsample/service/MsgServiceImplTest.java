@@ -87,7 +87,25 @@ class MsgServiceImplTest {
     verify(msgMapper, times(1)).findById(999);
   }
 
-//  @Test
-//  void deleteMsg() {
-//  }
+  @Test
+  public void 指定されたidが存在するときメッセージが削除されること() {
+    doReturn(Optional.of(new Message(1, "Hello"))).when(msgMapper).findById(1);
+
+    doNothing().when(msgMapper).deleteMsg(1);
+    try {
+      msgServiceImpl.deleteMsg(1);
+    } catch (ResourceNotFoundException e) {
+      fail(e.getMessage());
+    }
+    verify(msgMapper, times(1)).findById(1);
+    verify(msgMapper).deleteMsg(1);
+  }
+
+  @Test
+  public void 指定されたidが存在しない時例外がスローされること() {
+    doReturn(Optional.empty()).when(msgMapper).findById(999);
+
+    assertThrows(ResourceNotFoundException.class, () -> msgServiceImpl.deleteMsg(999));
+    verify(msgMapper, times(1)).findById(999);
+  }
 }

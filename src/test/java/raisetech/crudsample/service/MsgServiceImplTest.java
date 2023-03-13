@@ -81,7 +81,7 @@ class MsgServiceImplTest {
 
   @Test
   public void 存在しないidが指定された時例外がスローされること() {
-    doThrow(new ResourceNotFoundException("resource not found")).when(msgMapper).findById(999);
+    doReturn(Optional.empty()).when(msgMapper).findById(999);
 
     try {
       msgServiceImpl.updateMsg(999, "Hello");

@@ -89,7 +89,7 @@ class MsgServiceImplTest {
     } catch (ResourceNotFoundException e) {
       e.getMessage();
     }
-    verify(msgMapper).findById(999);
+    verify(msgMapper, times(1)).findById(999);
   }
 
 //  @Test

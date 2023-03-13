@@ -85,6 +85,7 @@ class MsgServiceImplTest {
 
     try {
       msgServiceImpl.updateMsg(999, "Hello");
+      fail("リクエスト成功");
     } catch (ResourceNotFoundException e) {
       e.getMessage();
     }

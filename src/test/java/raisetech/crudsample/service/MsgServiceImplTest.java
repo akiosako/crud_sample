@@ -79,6 +79,18 @@ class MsgServiceImplTest {
     verify(msgMapper).updateMsg(1, "Hello");
   }
 
+  @Test
+  public void 存在しないidが指定された時例外がスローされること() {
+    doThrow(new ResourceNotFoundException("resource not found")).when(msgMapper).findById(999);
+
+    try {
+      msgServiceImpl.updateMsg(999, "Hello");
+    } catch (ResourceNotFoundException e) {
+      e.getMessage();
+    }
+    verify(msgMapper).findById(999);
+  }
+
 //  @Test
 //  void deleteMsg() {
 //  }

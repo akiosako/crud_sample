@@ -98,7 +98,7 @@ class MsgServiceImplTest {
       fail(e.getMessage());
     }
     verify(msgMapper, times(1)).findById(1);
-    verify(msgMapper).deleteMsg(1);
+    verify(msgMapper, times(1)).deleteMsg(1);
   }
 
   @Test

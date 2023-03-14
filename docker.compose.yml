@@ -6,7 +6,7 @@ services:
   restart: always
   environment:
   MYSQL_ROOT_PASSWORD: root
-  MYSQL_DATABASE:
+  MYSQL_DATABASE: messages_db
   MYSQL_USER: vatic
   MYSQL_PASSWORD: francois0413
   ports:

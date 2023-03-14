@@ -94,7 +94,7 @@ class MsgServiceImplTest {
     doNothing().when(msgMapper).deleteMsg(1);
     try {
       msgServiceImpl.deleteMsg(1);
-    } catch (ResourceNotFoundException e) {
+    } catch (Exception e) {
       fail(e.getMessage());
     }
     verify(msgMapper, times(1)).findById(1);

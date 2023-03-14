@@ -105,3 +105,4 @@ class MsgServiceImplTest {
     verify(msgMapper, times(1)).findById(999);
   }
 }
+

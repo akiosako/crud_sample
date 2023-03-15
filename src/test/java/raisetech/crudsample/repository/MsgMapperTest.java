@@ -24,7 +24,7 @@ class MsgMapperTest {
   @Test
   @DataSet(value = "datasets/全てのメッセージが返されること/message.yml")
   @Transactional
-  public void 全てのメッセージが取得できること() {
+  public void 全てのメッセージが返されること() {
     List<Message> msg = msgMapper.findAll();
     assertThat(msg)
             .hasSize(3)

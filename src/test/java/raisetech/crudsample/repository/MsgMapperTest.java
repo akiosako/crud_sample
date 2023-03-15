@@ -22,9 +22,9 @@ class MsgMapperTest {
   MsgMapper msgMapper;
 
   @Test
-  @DataSet(value = "datasets/message.yml")
+  @DataSet(value = "datasets/全てのメッセージが返されること/message.yml")
   @Transactional
-  public void 全てのユーザーが取得できること() {
+  public void 全てのメッセージが取得できること() {
     List<Message> msg = msgMapper.findAll();
     assertThat(msg)
             .hasSize(3)
@@ -33,5 +33,12 @@ class MsgMapperTest {
                     new Message(2, "Bye"),
                     new Message(3, "Hi")
             );
+  }
+  @Test
+  @DataSet(value = )
+  @Transactional
+  public void DBに登録がないとき空の配列が返されること() {
+    List<Message> blankMsg = msgMapper.findAll();
+    assertThat(blankMsg).hasSize(0);
   }
 }

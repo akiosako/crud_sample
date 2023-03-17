@@ -34,11 +34,13 @@ class MsgMapperTest {
                     new Message(3, "Hi")
             );
   }
+
   @Test
-  @DataSet(value = )
+  @DataSet(value = "datasets/空の配列が返されること/message.yml")
   @Transactional
   public void DBに登録がないとき空の配列が返されること() {
     List<Message> blankMsg = msgMapper.findAll();
-    assertThat(blankMsg).hasSize(0);
+    assertThat(blankMsg).isEmpty();
   }
 }
+

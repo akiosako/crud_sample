@@ -7,11 +7,14 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.transaction.annotation.Transactional;
+import raisetech.crudsample.controller.ResourceNotFoundException;
 import raisetech.crudsample.entity.Message;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.List;
+import java.util.Optional;
 
 @DBRider
 @MybatisTest
@@ -42,5 +45,14 @@ class MsgMapperTest {
     List<Message> blankMsg = msgMapper.findAll();
     assertThat(blankMsg).isEmpty();
   }
+
+  @Test
+  @DataSet(value = "datasets/指定されたidのメッセージが返されること/message.yml")
+  @Transactional
+  public void 指定されたidのメッセージが返されること() {
+    Optional<Message> msg = msgMapper.findById(1);
+    assertThat(msg).isEqualTo(Optional.of(new Message(1, "Hello")));
+  }
 }
+
 

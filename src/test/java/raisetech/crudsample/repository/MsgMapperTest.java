@@ -59,9 +59,7 @@ class MsgMapperTest {
   @ExpectedDataSet("datasets/メッセージが登録されること/message.yml")
   @Transactional
   public void メッセージが登録されること() {
-    Message m = new Message();
-    m.setMsg("Hello");
-    msgMapper.createMsg(m);
+    msgMapper.createMsg(new Message(1, "Hello"));
   }
 }
 

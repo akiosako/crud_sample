@@ -1,6 +1,7 @@
 package raisetech.crudsample.repository;
 
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -53,6 +54,16 @@ class MsgMapperTest {
     Optional<Message> msg = msgMapper.findById(1);
     assertThat(msg).isEqualTo(Optional.of(new Message(1, "Hello")));
   }
+
+  @Test
+  @ExpectedDataSet("datasets/メッセージが登録されること/message.yml")
+  @Transactional
+  public void メッセージが登録されること() {
+    Message m = new Message();
+    m.setMsg("Hello");
+    msgMapper.createMsg(m);
+  }
 }
+
 
 

@@ -61,3 +61,4 @@ class MsgMapperTest {
     msgMapper.createMsg(new Message(1, "Hello"));
   }
 }
+

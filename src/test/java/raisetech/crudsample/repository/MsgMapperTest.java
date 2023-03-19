@@ -8,14 +8,12 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.transaction.annotation.Transactional;
-import raisetech.crudsample.controller.ResourceNotFoundException;
 import raisetech.crudsample.entity.Message;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DBRider
 @MybatisTest
@@ -56,12 +54,14 @@ class MsgMapperTest {
   }
 
   @Test
-  @ExpectedDataSet("datasets/メッセージが登録されること/message.yml")
+  @ExpectedDataSet(value = "datasets/メッセージが登録されること/message.yml")
   @Transactional
   public void メッセージが登録されること() {
-    msgMapper.createMsg(new Message(1, "Hello"));
+    msgMapper.createMsg(new Message(120, "Hello"));
   }
 }
+
+
 
 
 

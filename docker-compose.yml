@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    image: mysql
+    container_name: crud_sample-db-1
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: messages_db
+      MYSQL_USER: vatic
+      MYSQL_PASSWORD: francois0413
+      TZ: Asia/Tokyo
+    ports:
+      - 3307:3306
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d

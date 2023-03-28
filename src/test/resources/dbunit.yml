@@ -4,6 +4,6 @@ properties:
   schema: messages_db
 caseInsensitiveStrategy: LOWERCASE
 connectionConfig:
-  url: "jdbc:mysql://localhost:3306/messages_db"
+  url: "jdbc:mysql://localhost:3307/messages_db"
   user: "vatic"
   password: "francois0413"

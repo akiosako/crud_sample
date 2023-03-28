@@ -64,14 +64,14 @@ class MsgServiceImplTest {
   @Test
   public void 指定されたidが存在する時メッセージが更新されること() {
     doReturn(Optional.of(new Message(1, "Hello"))).when(msgMapper).findById(1);
-    verify(msgMapper).findById(1);
-
+    
     doNothing().when(msgMapper).updateMsg(1, "Hello");
     try {
       msgServiceImpl.updateMsg(1, "Hello");
     } catch (ResourceNotFoundException e) {
       fail(e.getMessage());
     }
+    verify(msgMapper).findById(1);
     verify(msgMapper).updateMsg(1, "Hello");
   }
 

@@ -2,7 +2,7 @@ package raisetech.crudsample.repository;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.junit5.api.DBRider;
+import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ class MsgMapperTest {
   @ExpectedDataSet(value = "datasets/メッセージが登録されること/expected_message.yml")
   @Transactional
   public void メッセージが登録されること() {
-    msgMapper.createMsg(new Message(1, "Hello"));
+    msgMapper.createMsg(new Message(2, "Bye"));
   }
 }
 

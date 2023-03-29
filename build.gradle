@@ -28,7 +28,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.1'
-    testImplementation "com.github.database-rider:rider-junit5:1.35.0"
+    implementation 'com.github.database-rider:rider-spring:1.36.0'
 }
 
 tasks.named('test') {

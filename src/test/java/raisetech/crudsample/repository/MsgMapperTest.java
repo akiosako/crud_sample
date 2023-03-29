@@ -77,6 +77,3 @@ class MsgMapperTest {
     msgMapper.deleteMsg(2);
   }
 }
-
-
-

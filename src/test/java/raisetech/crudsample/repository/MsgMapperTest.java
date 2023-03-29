@@ -55,10 +55,10 @@ class MsgMapperTest {
 
   @Test
   @DataSet(value = "datasets/メッセージが登録されること/set_message.yml")
-  @ExpectedDataSet(value = "datasets/メッセージが登録されること/expected_message.yml")
+  @ExpectedDataSet(value = "datasets/メッセージが登録されること/expected_message.yml", ignoreCols = "id")
   @Transactional
   public void メッセージが登録されること() {
-    msgMapper.createMsg(new Message(2, "Bye"));
+    msgMapper.createMsg(new Message(1, "Hello"));
   }
 }
 

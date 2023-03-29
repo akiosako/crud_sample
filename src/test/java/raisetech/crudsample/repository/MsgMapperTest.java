@@ -60,6 +60,22 @@ class MsgMapperTest {
   public void メッセージが登録されること() {
     msgMapper.createMsg(new Message(1, "Hello"));
   }
+
+  @Test
+  @DataSet(value = "datasets/メッセージが更新されること/set_message.yml")
+  @ExpectedDataSet(value = "datasets/メッセージが更新されること/expected_message.yml")
+  @Transactional
+  public void 指定されたidのメッセージが存在する時メッセージが更新されること() {
+    msgMapper.updateMsg(1, "Bye");
+  }
+
+  @Test
+  @DataSet(value = "datasets/メッセージが削除されること/set_message.yml")
+  @ExpectedDataSet(value = "datasets/メッセージが削除されること/expected_message.yml")
+  @Transactional
+  public void 指定されたidが存在する時メッセージが削除されること() {
+    msgMapper.deleteMsg(2);
+  }
 }
 
 

@@ -1,0 +1,51 @@
+package raisetech.crudsample.integationtest;
+
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.spring.api.DBRider;
+import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.nio.charset.StandardCharsets;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@DBRider
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class MessageRestApiIntegrationTest {
+  @Autowired
+  MockMvc mockMvc;
+
+  @Test
+  @DataSet(value = "datasets/it_全てのメッセージが取得できること/message.yml")
+  @Transactional
+  void 全てのメッセージが取得できること() throws Exception {
+    String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("[" +
+            " {" +
+            " \"id\": 1," +
+            " \"msg\": \"Hello\"" +
+            " }," +
+            " {" +
+            " \"id\": 2," +
+            " \"msg\": \"Bye\"" +
+            " }," +
+            " {" +
+            " \"id\": 3," +
+            " \"msg\": \"Hi\"" +
+            " }" +
+            "]", responce, JSONCompareMode.STRICT
+    );
+  }
+}

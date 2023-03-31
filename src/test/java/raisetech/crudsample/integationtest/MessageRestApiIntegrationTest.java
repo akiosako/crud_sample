@@ -71,4 +71,13 @@ public class MessageRestApiIntegrationTest {
             " }", responce, JSONCompareMode.STRICT
     );
   }
+
+  @Test
+  @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
+  @Transactional
+  void it_指定されたidのメッセージが存在しないとき例外がスローされること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/msg/3"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andReturn().getResponse().getErrorMessage();
+  }
 }

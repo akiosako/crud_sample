@@ -48,4 +48,12 @@ public class MessageRestApiIntegrationTest {
             "]", responce, JSONCompareMode.STRICT
     );
   }
+
+  @Test
+  @DataSet(value = "datasets/it_メッセージが存在しないとき200が返されること/message.yml")
+  @Transactional
+  void メッセージが存在しないとき200が返されること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
+            .andExpect(MockMvcResultMatchers.status().isOk());
+  }
 }

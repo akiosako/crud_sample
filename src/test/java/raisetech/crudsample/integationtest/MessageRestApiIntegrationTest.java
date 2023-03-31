@@ -56,4 +56,19 @@ public class MessageRestApiIntegrationTest {
     mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
             .andExpect(MockMvcResultMatchers.status().isOk());
   }
+
+  @Test
+  @DataSet(value = "datasets/it_指定されたidのメッセージが存在するときメッセージが返されること/message.yml")
+  @Transactional
+  void 指定されたidのメッセージが存在するときメッセージが返されること() throws Exception {
+    String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg/3"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals(" {" +
+            " \"id\": 3," +
+            " \"msg\": \"Hi\"" +
+            " }", responce, JSONCompareMode.STRICT
+    );
+  }
 }

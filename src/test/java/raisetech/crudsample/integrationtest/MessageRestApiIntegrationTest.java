@@ -1,6 +1,5 @@
 package raisetech.crudsample.integrationtest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
@@ -90,9 +89,21 @@ public class MessageRestApiIntegrationTest {
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
   @Transactional
   void it_指定されたidのメッセージが存在しないとき例外がスローされること() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/msg/{id}", 999))
+    String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg/{id}", 999))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
-            .andReturn().getResponse().getErrorMessage();
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                              {
+                                  "error": "Not Found",
+                                  "Status": "404",
+                                  "path": "/msg/999",
+                                  "message": "resource not found",
+                                  "timestamp": "2023-04-02T10:50:29.604145900+09:00[Asia/Tokyo]"
+                              }
+                    """, responce,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
   }
 
   @Test
@@ -126,7 +137,7 @@ public class MessageRestApiIntegrationTest {
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
   @Transactional
   void it_指定されたidのメッセージが存在しないときメッセージを更新せず例外がスローされること() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 999)
+    String responce = mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 999)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content("""
                             {
@@ -134,7 +145,18 @@ public class MessageRestApiIntegrationTest {
                             }
                             """))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
-            .andReturn().getResponse().getErrorMessage();
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+    JSONAssert.assertEquals("""
+                              {
+                                  "error": "Not Found",
+                                  "Status": "404",
+                                  "path": "/msg/999",
+                                  "message": "resource not found",
+                                  "timestamp": "2023-04-02T10:50:29.604145900+09:00[Asia/Tokyo]"
+                              }
+                    """, responce,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
   }
 
   @Test
@@ -149,8 +171,20 @@ public class MessageRestApiIntegrationTest {
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
   @Transactional
   void it_指定されたidのメッセージが存在しないとき削除せず例外がスローされること() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.delete("/msg/{id}", 999))
+    String responce = mockMvc.perform(MockMvcRequestBuilders.delete("/msg/{id}", 999))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
-            .andReturn().getResponse().getErrorMessage();
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                              {
+                                  "error": "Not Found",
+                                  "Status": "404",
+                                  "path": "/msg/999",
+                                  "message": "resource not found",
+                                  "timestamp": "2023-04-02T10:50:29.604145900+09:00[Asia/Tokyo]"
+                              }
+                    """, responce,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
   }
 }

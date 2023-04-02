@@ -202,5 +202,3 @@ public class MessageRestApiIntegrationTest {
                     new Customization("timestamp", (o1, o2) -> true)));
   }
 }
-
-

@@ -38,20 +38,22 @@ public class MessageRestApiIntegrationTest {
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-    JSONAssert.assertEquals("[" +
-            " {" +
-            " \"id\": 1," +
-            " \"msg\": \"Hello\"" +
-            " }," +
-            " {" +
-            " \"id\": 2," +
-            " \"msg\": \"Bye\"" +
-            " }," +
-            " {" +
-            " \"id\": 3," +
-            " \"msg\": \"Hi\"" +
-            " }" +
-            "]", responce, JSONCompareMode.STRICT
+    JSONAssert.assertEquals("""
+            [
+                {
+                    "id": 1,
+                    "msg": "Hello"
+                },
+                {
+                    "id": 2,
+                    "msg": "Bye"
+                },
+                {
+                    "id": 3,
+                    "msg": "Hi"
+                }
+            ]
+            """, responce, JSONCompareMode.STRICT
     );
   }
 
@@ -71,10 +73,12 @@ public class MessageRestApiIntegrationTest {
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-    JSONAssert.assertEquals(" {" +
-            " \"id\": 3," +
-            " \"msg\": \"Hi\"" +
-            " }", responce, JSONCompareMode.STRICT
+    JSONAssert.assertEquals("""
+            {
+                    "id": 3,
+                    "msg": "Hi"
+                }
+            """, responce, JSONCompareMode.STRICT
     );
   }
 
@@ -94,16 +98,22 @@ public class MessageRestApiIntegrationTest {
   void it_メッセージが登録されること() throws Exception {
     String result = mockMvc.perform(MockMvcRequestBuilders.post("/msg")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(" {" +
-                            " \"msg\": \"Hello\"" +
-                            " }"))
+                    .content("""
+                            {
+                                    "id": 1,
+                                    "msg": "Hello"
+                                }
+                            """))
             .andExpect(MockMvcResultMatchers.status().isCreated())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-    JSONAssert.assertEquals("{" +
-                    " \"message\": \"message created successfully\"," +
-                    " \"created message\": \"Hello\"," +
-                    " \"id\": \"null\"" + "}", result,
+    JSONAssert.assertEquals("""
+                    {
+                        "created message": "Hello",
+                        "id": "1",
+                        "message": "message created successfully"
+                    }
+                    """, result,
             new CustomComparator(JSONCompareMode.LENIENT,
                     new Customization("id", (o1, o2) -> true)));
   }
@@ -114,9 +124,11 @@ public class MessageRestApiIntegrationTest {
   void it_指定されたidのメッセージが存在しないときメッセージを更新せず例外がスローされること() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 999)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content("{" +
-                            " \"msg\": \"Bye\"" +
-                            "}"))
+                    .content("""
+                            {
+                                "msg":"Bye"
+                            }
+                            """))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andReturn().getResponse().getErrorMessage();
   }
@@ -138,4 +150,3 @@ public class MessageRestApiIntegrationTest {
             .andReturn().getResponse().getErrorMessage();
   }
 }
-

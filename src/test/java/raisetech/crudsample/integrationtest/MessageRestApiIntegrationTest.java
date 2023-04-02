@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 public class MessageRestApiIntegrationTest {
   @Autowired
   MockMvc mockMvc;
-  private ObjectMapper msgMapper;
 
   @Test
   @DataSet(value = "datasets/it_全てのメッセージが取得できること/message.yml")

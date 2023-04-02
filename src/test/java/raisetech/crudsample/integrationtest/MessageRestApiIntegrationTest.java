@@ -107,4 +107,18 @@ public class MessageRestApiIntegrationTest {
             new CustomComparator(JSONCompareMode.LENIENT,
                     new Customization("id", (o1, o2) -> true)));
   }
+
+  @Test
+  @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
+  @Transactional
+  void it_指定されたidのメッセージが存在しないときメッセージを更新せず例外がスローされること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 999)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("{" +
+                            " \"msg\": \"Bye\"" +
+                            "}"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andReturn().getResponse().getErrorMessage();
+  }
+
 }

@@ -128,4 +128,13 @@ public class MessageRestApiIntegrationTest {
     mockMvc.perform(MockMvcRequestBuilders.delete("/msg/{id}", 1))
             .andExpect(MockMvcResultMatchers.status().isNoContent());
   }
+
+  @Test
+  @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
+  @Transactional
+  void it_指定されたidのメッセージが存在しないとき削除せず例外がスローされること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete("/msg/{id}", 999))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andReturn().getResponse().getErrorMessage();
+  }
 }

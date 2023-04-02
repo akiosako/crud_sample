@@ -1,6 +1,7 @@
 package raisetech.crudsample.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class Controller {
   }
 
   @PostMapping //30文字を超える場合はエラーメッセージを返す
-  public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
+  public ResponseEntity<Map<String, String>> createMsg(@Valid @RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
     int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder
             .path("/msg/{id}")

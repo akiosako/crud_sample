@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Message {
   private int id;
   @NotNull
-  @Size(min = 1, max = 30, message = "メッセージは1文字～30文字の間で登録できます。")
+  @Size(min = 1, max = 20, message = "メッセージは1文字～30文字の間で登録できます。")
   private String msg;
 
   @Override

@@ -35,7 +35,7 @@ public class Controller {
     return msgService.findById(id);
   }
 
-  @PostMapping //30文字を超える場合はエラーメッセージを返す
+  @PostMapping //msgが20文字を超える場合、nullの場合はエラーメッセージと404を返す
   public ResponseEntity<Map<String, String>> createMsg(@Valid @RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
     int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder
@@ -49,7 +49,7 @@ public class Controller {
     ));
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/{id}")//msgが20文字を超える場合、nullの場合はエラーメッセージと404を返す
   public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
     msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();

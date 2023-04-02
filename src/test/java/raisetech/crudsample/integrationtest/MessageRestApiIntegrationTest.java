@@ -134,6 +134,20 @@ public class MessageRestApiIntegrationTest {
   }
 
   @Test
+  @DataSet(value = "datasets/it_指定されたidのメッセージが存在するときメッセージが更新されること/message.yml")
+  @Transactional
+  void it_指定されたidのメッセージが存在するときメッセージが更新されること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 1)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":"Bye"
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isNoContent());
+  }
+
+  @Test
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在しないとき例外がスローされること/message.yml")
   @Transactional
   void it_指定されたidのメッセージが存在しないときメッセージを更新せず例外がスローされること() throws Exception {

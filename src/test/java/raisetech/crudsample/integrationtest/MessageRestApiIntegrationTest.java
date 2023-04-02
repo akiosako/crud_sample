@@ -121,4 +121,11 @@ public class MessageRestApiIntegrationTest {
             .andReturn().getResponse().getErrorMessage();
   }
 
+  @Test
+  @DataSet("datasets/it_指定されたidのメッセージが存在するとき削除されること/message.yml")
+  @Transactional
+  void it_指定されたidのメッセージが存在するとき削除されること() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.delete("/msg/{id}", 1))
+            .andExpect(MockMvcResultMatchers.status().isNoContent());
+  }
 }

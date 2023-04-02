@@ -57,11 +57,16 @@ public class MessageRestApiIntegrationTest {
   }
 
   @Test
-  @DataSet(value = "datasets/it_メッセージが存在しないとき200が返されること/message.yml")
+  @DataSet(value = "datasets/it_メッセージが存在しないとき空の配列と200が返されること/message.yml")
   @Transactional
-  void メッセージが存在しないとき200が返されること() throws Exception {
-    mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
-            .andExpect(MockMvcResultMatchers.status().isOk());
+  void メッセージが存在しないとき空の空の配列と200が返されること() throws Exception {
+    String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+            []
+            """, responce, JSONCompareMode.STRICT);
   }
 
   @Test

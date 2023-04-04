@@ -35,7 +35,7 @@ public class Controller {
     return msgService.findById(id);
   }
 
-  @PostMapping //msgが20文字を超える場合、nullの場合はエラーメッセージと404を返す
+  @PostMapping //msgが20文字を超える場合、nullの場合はエラーメッセージと400(Bad Request)を返す
   public ResponseEntity<Map<String, String>> createMsg(@Valid @RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
     int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder

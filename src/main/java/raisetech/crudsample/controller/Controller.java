@@ -49,7 +49,7 @@ public class Controller {
     ));
   }
 
-  @PatchMapping("/{id}")//msgが20文字を超える場合、nullの場合はエラーメッセージと404を返す
+  @PatchMapping("/{id}")//msgが20文字を超える場合、nullの場合はエラーメッセージと400を返す
   public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
     msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();

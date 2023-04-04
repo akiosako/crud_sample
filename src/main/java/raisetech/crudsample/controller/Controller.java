@@ -35,7 +35,7 @@ public class Controller {
     return msgService.findById(id);
   }
 
-  @PostMapping //msgが20文字を超える場合、nullの場合はエラーメッセージと400(Bad Request)を返す
+  @PostMapping //msgが20文字を超える場合、null及び空文字の場合はエラーメッセージと400(Bad Request)を返す
   public ResponseEntity<Map<String, String>> createMsg(@Valid @RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
     int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder
@@ -49,7 +49,7 @@ public class Controller {
     ));
   }
 
-  @PatchMapping("/{id}")//msgが20文字を超える場合、nullの場合はエラーメッセージと400(Bad Request)を返す
+  @PatchMapping("/{id}")//msgが20文字を超える場合、null及び空文字の場合はエラーメッセージと400(Bad Request)を返す
   public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
     msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();
@@ -73,5 +73,4 @@ public class Controller {
     return new ResponseEntity(body, HttpStatus.NOT_FOUND);
   }
 }
-
 

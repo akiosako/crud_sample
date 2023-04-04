@@ -50,7 +50,7 @@ public class Controller {
   }
 
   @PatchMapping("/{id}")//msgが20文字を超える場合、null及び空文字の場合はエラーメッセージと400(Bad Request)を返す
-  public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+  public ResponseEntity updateMsg(@PathVariable int id, @Valid @RequestBody UpdateForm updateForm) {
     msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();
   }

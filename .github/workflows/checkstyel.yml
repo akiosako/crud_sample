@@ -22,7 +22,7 @@ jobs:
         uses: nikitasavinov/checkstyle-action@master
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }} #test
           reporter: 'github-pr-check'
           tool_name: 'reviewdog'
           checkstyle_config: 'config/checkstyle/checkstyle.xml'

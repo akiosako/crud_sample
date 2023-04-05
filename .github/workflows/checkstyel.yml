@@ -1,17 +1,17 @@
 name: Checkstyle
 
 on:
-  pull_request:
+  pull_request: #ワークフローを実行する原因となるイベントを定義
 
 permissions:
-  contents: read
+  contents: read　
 
 jobs:
-  checkstyle:
+  checkstyle: #jobを定義
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #OSの設定
 
-    steps:
+    steps: #jobで実行されるすべてのステップをグループ化する（個別のアクションまたはシェルスクリプト）
       - uses: actions/checkout@v3
       - name: Set up JDK 19
         uses: actions/setup-java@v3
@@ -22,7 +22,7 @@ jobs:
         uses: nikitasavinov/checkstyle-action@master
         if: always()
         with:
-          github_token: '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'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: 'github-pr-check'
           tool_name: 'reviewdog'
           checkstyle_config: 'config/checkstyle/checkstyle.xml'

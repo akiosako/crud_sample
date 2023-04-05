@@ -1,5 +1,6 @@
 package raisetech.crudsample.entity;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Message {
   private int id;
-  @NotNull
-  @Size(min = 1, max = 30, message = "メッセージは1文字～30文字の間で登録できます。")
+  @NotEmpty
+  @Size(min = 1, max = 20, message = "メッセージは{min}文字～{max}文字の間で登録できます。")
   private String msg;
 
   @Override

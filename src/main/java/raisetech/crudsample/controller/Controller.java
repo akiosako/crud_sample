@@ -1,6 +1,7 @@
 package raisetech.crudsample.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class Controller {
     return msgService.findById(id);
   }
 
-  @PostMapping //30文字を超える場合はエラーメッセージを返す
-  public ResponseEntity<Map<String, String>> createMsg(@RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
+  @PostMapping //msgが20文字を超える場合、null及び空文字の場合はエラーメッセージと400(Bad Request)を返す
+  public ResponseEntity<Map<String, String>> createMsg(@Valid @RequestBody MsgForm msgForm, UriComponentsBuilder uriComponentsBuilder) {
     int newId = this.msgService.createMsg(msgForm.getMsg());
     URI uri = uriComponentsBuilder
             .path("/msg/{id}")
@@ -48,8 +49,8 @@ public class Controller {
     ));
   }
 
-  @PatchMapping("/{id}")
-  public ResponseEntity updateMsg(@PathVariable int id, @RequestBody UpdateForm updateForm) {
+  @PatchMapping("/{id}")//msgが20文字を超える場合、null及び空文字の場合はエラーメッセージと400(Bad Request)を返す
+  public ResponseEntity updateMsg(@PathVariable int id, @Valid @RequestBody UpdateForm updateForm) {
     msgService.updateMsg(id, updateForm.getMsg());
     return ResponseEntity.noContent().build();
   }
@@ -72,5 +73,4 @@ public class Controller {
     return new ResponseEntity(body, HttpStatus.NOT_FOUND);
   }
 }
-
 

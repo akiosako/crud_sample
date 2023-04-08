@@ -280,7 +280,7 @@ public class MessageRestApiIntegrationTest {
 
   @Test
   @Transactional
-  void nullがリクエストされたとき更新せずエラーメッセージが返されること() throws Exception {
+  void it_nullがリクエストされたとき更新せずエラーメッセージが返されること() throws Exception {
     String response = mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 1)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content("""

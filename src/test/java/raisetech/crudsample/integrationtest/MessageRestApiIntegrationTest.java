@@ -31,7 +31,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_全てのメッセージが取得できること/message.yml")
   @Transactional
-  void 全てのメッセージが取得できること() throws Exception {
+  void it_全てのメッセージが取得できること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -58,7 +58,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_メッセージが存在しないとき空の配列と200が返されること/message.yml")
   @Transactional
-  void メッセージが存在しないとき空の空の配列と200が返されること() throws Exception {
+  void it_メッセージが存在しないとき空の空の配列と200が返されること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -71,7 +71,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在するときメッセージが返されること/message.yml")
   @Transactional
-  void 指定されたidのメッセージが存在するときメッセージが返されること() throws Exception {
+  void it_指定されたidのメッセージが存在するときメッセージが返されること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg/{id}", 3))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);

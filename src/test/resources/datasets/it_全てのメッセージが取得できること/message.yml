@@ -3,5 +3,5 @@ message:
     msg: "Hello"
   - id: 2
     msg: "Bye"
-  - id:
+  - id: 3
     msg: "Hi"

@@ -31,7 +31,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_全てのメッセージが取得できること/message.yml")
   @Transactional
-  void 全てのメッセージが取得できること() throws Exception {
+  void it_全てのメッセージが取得できること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -58,7 +58,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_メッセージが存在しないとき空の配列と200が返されること/message.yml")
   @Transactional
-  void メッセージが存在しないとき空の空の配列と200が返されること() throws Exception {
+  void it_メッセージが存在しないとき空の空の配列と200が返されること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -71,7 +71,7 @@ public class MessageRestApiIntegrationTest {
   @Test
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在するときメッセージが返されること/message.yml")
   @Transactional
-  void 指定されたidのメッセージが存在するときメッセージが返されること() throws Exception {
+  void it_指定されたidのメッセージが存在するときメッセージが返されること() throws Exception {
     String responce = mockMvc.perform(MockMvcRequestBuilders.get("/msg/{id}", 3))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -134,6 +134,84 @@ public class MessageRestApiIntegrationTest {
   }
 
   @Test
+  @Transactional
+  void it_21文字以上のメッセージがリクエストされたとき登録せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.post("/msg")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":"111111111111111111111111111111111111111"
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                    {
+                        "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                        "timestamp": "2023-04-07T16:35:09.423044300+09:00[Asia/Tokyo]",
+                        "error": "Bad Request",
+                        "Status": "400",
+                        "path": "/msg"
+                    }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
+  }
+
+  @Test
+  @Transactional
+  void it_空文字のメッセージがリクエストされたとき登録せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.post("/msg")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":""
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                    {
+                        "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                        "timestamp": "2023-04-07T16:35:09.423044300+09:00[Asia/Tokyo]",
+                        "error": "Bad Request",
+                        "Status": "400",
+                        "path": "/msg"
+                    }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
+  }
+
+  @Test
+  @Transactional
+  void it_nullがリクエストされたとき登録せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.post("/msg")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":null
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                    {
+                        "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                        "timestamp": "2023-04-07T16:35:09.423044300+09:00[Asia/Tokyo]",
+                        "error": "Bad Request",
+                        "Status": "400",
+                        "path": "/msg"
+                    }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", (o1, o2) -> true)));
+  }
+
+  @Test
   @DataSet(value = "datasets/it_指定されたidのメッセージが存在するときメッセージが更新されること/message.yml")
   @Transactional
   void it_指定されたidのメッセージが存在するときメッセージが更新されること() throws Exception {
@@ -160,6 +238,7 @@ public class MessageRestApiIntegrationTest {
                             """))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
     JSONAssert.assertEquals("""
                               {
                                   "error": "Not Found",
@@ -172,6 +251,85 @@ public class MessageRestApiIntegrationTest {
             new CustomComparator(JSONCompareMode.LENIENT,
                     new Customization("timestamp", (o1, o2) -> true)));
   }
+
+  @Test
+  @Transactional
+  void it_21文字以上のメッセージがリクエストされたとき更新せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 1)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":"111111111111111111111111111111111111111"
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                                {
+                                    "error": "Bad Request",
+                                    "timestamp": "2023-04-07T20:00:54.970235+09:00[Asia/Tokyo]",
+                                    "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                                    "path": "/msg/1",
+                                    "Status": "400"
+                                }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", ((o1, o2) -> true))));
+  }
+
+  @Test
+  @Transactional
+  void nullがリクエストされたとき更新せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 1)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":null
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                                {
+                                    "error": "Bad Request",
+                                    "timestamp": "2023-04-07T20:00:54.970235+09:00[Asia/Tokyo]",
+                                    "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                                    "path": "/msg/1",
+                                    "Status": "400"
+                                }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", ((o1, o2) -> true))));
+  }
+
+  @Test
+  @Transactional
+  void it_空文字がリクエストされたとき更新せずエラーメッセージが返されること() throws Exception {
+    String response = mockMvc.perform(MockMvcRequestBuilders.patch("/msg/{id}", 1)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content("""
+                            {
+                                "msg":""
+                            }
+                            """))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    JSONAssert.assertEquals("""
+                                {
+                                    "error": "Bad Request",
+                                    "timestamp": "2023-04-07T20:00:54.970235+09:00[Asia/Tokyo]",
+                                    "message": "21文字以上のメッセージ、空文字、nullは許容されません。",
+                                    "path": "/msg/1",
+                                    "Status": "400"
+                                }
+                    """, response,
+            new CustomComparator(JSONCompareMode.LENIENT,
+                    new Customization("timestamp", ((o1, o2) -> true))));
+  }
+
 
   @Test
   @DataSet("datasets/it_指定されたidのメッセージが存在するとき削除されること/message.yml")

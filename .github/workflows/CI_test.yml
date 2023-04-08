@@ -1,18 +1,17 @@
-# このワークフローはGitHubによって認定されていないアクションを使用します。
-# それらはサードパーティによって提供され、
-# 別個の利用規約、プライバシーポリシー、
-# ドキュメントを参照してください。
+name: Java CI with Gradle
 
-# GitHub では、コミット SHA にアクションをピン留めすることが推奨されます。
-# 新しいバージョンを取得するには、SHA を更新する必要があります。
-# タグまたはブランチを参照することもできますが、アクションは警告なしに変更される可能性があります。
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
-name: Java CI
-
-on: [ push ]
+permissions:
+  contents: read
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +21,6 @@ jobs:
         with:
           java-version: '19'
           distribution: 'temurin'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:

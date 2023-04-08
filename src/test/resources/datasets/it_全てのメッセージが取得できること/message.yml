@@ -1,7 +1,0 @@
-message:
-  - id: 1
-    msg: "Hello"
-  - id: 2
-    msg: "Bye"
-  - id: 3
-    msg: "Hi"

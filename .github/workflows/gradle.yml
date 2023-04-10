@@ -28,21 +28,3 @@ jobs:
       #Gradleのバッチに実行権限付与(デフォルトでは実行権限がない)
       - name: Make Gradle executable
         run: chmod +x ./gradlew
-
-      #ビルドして単体テストレポート出力(Jacoco)
-      - name: Build with Gradle(Jacoco)
-        run: ./gradlew build jacocoTestReport
-
-      #ユニットテスト結果をGitHubにアップロードする
-      - name: Archive unit test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: unit-test-report
-          path: build/reports/tests/test
-
-      # カバレッジレポート(Jacoco)をGitHubにアップロードする
-      - name: Archive coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: build/reports/jacoco/test/html

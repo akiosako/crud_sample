@@ -16,4 +16,4 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: UnitTest
-        run: bash ./gradlew test --stacktrace
+        run: bash ./gradlew test

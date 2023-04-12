@@ -14,4 +14,4 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
       - name: Build with Gradle
-        run: chmod +x ./gradlew test
+        run: chmod +x ./gradlew

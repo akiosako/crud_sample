@@ -13,5 +13,5 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: unitTest
-        run: chmod +x ./gradlew
+      - name: gradle build
+        run: ./gradlew build

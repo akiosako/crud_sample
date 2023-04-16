@@ -1,0 +1,21 @@
+name: Java CI
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: docker container build
+        run: docker compose up -d
+      - name: gradle build
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build
